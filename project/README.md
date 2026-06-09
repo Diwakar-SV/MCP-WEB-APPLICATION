@@ -100,6 +100,8 @@ project/
 ├── services/
 │   └── gemini_classifier.py        # Gemini API connector and JSON classification parser
 │
+├── sample_data/                    # Sample inputs and expected classification outputs
+│
 ├── .env                            # Local environment variables containing API keys (Ignored by Git)
 ├── .env.example                    # Template file for environment variable setup
 ├── .gitignore                      # Git exclusion rules for .env, PyCache, and DB temp files
