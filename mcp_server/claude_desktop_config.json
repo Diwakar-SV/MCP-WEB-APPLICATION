@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ticket-system": {
+      "command": "python",
+      "args": [
+        "d:/MCP WEB APPLICATION/mcp_server/server.py"
+      ]
+    }
+  }
+}
