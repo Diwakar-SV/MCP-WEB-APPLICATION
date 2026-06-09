@@ -3,7 +3,7 @@
     "ticket-system": {
       "command": "python",
       "args": [
-        "d:/MCP WEB APPLICATION/mcp_server/server.py"
+        "d:/MCP WEB APPLICATION/project/mcp_server/server.py"
       ]
     }
   }
