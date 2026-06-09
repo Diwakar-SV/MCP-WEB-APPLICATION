@@ -88,7 +88,8 @@ project/
 │
 ├── docs/
 │   ├── AGENT_ARCHITECTURE.md       # Detailed guide on the ReAct orchestrator loop
-│   └── GEMINI_INTEGRATION.md       # Gemini sequence flows and interview preparation guide
+│   ├── GEMINI_INTEGRATION.md       # Gemini sequence flows and interview preparation guide
+│   └── PROMPTS.md                  # Comprehensive record of development and design prompts
 │
 ├── frontend/                       # React TypeScript Vite single page app
 │
