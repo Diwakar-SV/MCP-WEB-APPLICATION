@@ -103,6 +103,7 @@ project/
 ├── .env                            # Local environment variables containing API keys (Ignored by Git)
 ├── .env.example                    # Template file for environment variable setup
 ├── .gitignore                      # Git exclusion rules for .env, PyCache, and DB temp files
+├── AI_USAGE_NOTE.md                # Summary of AI usage, challenges, and prompts used
 └── requirements.txt                # Python project dependencies
 ```
 
