@@ -4,10 +4,17 @@ import urllib.request
 import urllib.error
 from datetime import datetime
 from typing import Dict, Any, List, Optional
+from dotenv import load_dotenv
+
 from agent.models import AgentState, ExecutionStep, WorkflowResult
 from agent.planner import classify_priority, generate_plan, is_duplicate_ticket
 from agent.executor import Executor
 import agent.prompts as prompts
+from services.gemini_classifier import GeminiClassifier
+
+# Load environment variables from .env if present (relative to project root)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 class HelpdeskAgentWorkflow:
     """
@@ -18,9 +25,9 @@ class HelpdeskAgentWorkflow:
         self.executor = Executor(mode=mode)
         # Check for Gemini API key to enable live LLM reasoning
         self.gemini_key = os.environ.get("GEMINI_API_KEY")
-        if not self.gemini_key:
-            # Fall back to checking standard environment files if any
-            pass
+        # Initialize the Gemini Classifier
+        self.classifier = GeminiClassifier()
+
 
     def run(self, issue_text: str) -> WorkflowResult:
         """Runs the complete ReAct loop for a given issue text."""
@@ -29,9 +36,21 @@ class HelpdeskAgentWorkflow:
             issue_text=issue_text,
             status="RUNNING"
         )
-        
-        # Determine priority immediately (both LLM and offline use this helper)
-        state.priority = classify_priority(issue_text)
+        # Determine priority, category, and summary with Gemini or fall back
+        try:
+            if self.classifier.api_key:
+                print(f"[Agent] Classifying issue using Gemini: '{issue_text}'")
+                classification = self.classifier.classify_issue(issue_text)
+                state.priority = classification["priority"]
+                state.category = classification["category"]
+                state.summary = classification["summary"]
+            else:
+                raise ValueError("GEMINI_API_KEY environment variable is not set.")
+        except Exception as e:
+            print(f"[Agent Error] Gemini classification failed: {e}. Falling back to rule-based classification.")
+            state.priority = classify_priority(issue_text)
+            state.category = "General"
+            state.summary = issue_text[:80] + ("..." if len(issue_text) > 80 else "")
         
         try:
             if self.gemini_key:
@@ -155,8 +174,9 @@ class HelpdeskAgentWorkflow:
             # New issue! Create ticket.
             step3_thought = f"No similar active tickets were found (highest similarity score: {int(similarity_score * 100)}%). I will create a new support ticket in the system with '{priority}' priority."
             
+            title = state.summary if state.summary else (issue[:80] + ("..." if len(issue) > 80 else ""))
             tool_args = {
-                "title": issue[:80] + ("..." if len(issue) > 80 else ""),
+                "title": title,
                 "description": issue,
                 "priority": priority
             }
@@ -196,7 +216,13 @@ class HelpdeskAgentWorkflow:
         # Standard system prompt + instructions
         messages = [
             {"role": "system", "content": prompts.SYSTEM_PROMPT},
-            {"role": "user", "content": f"User Issue: '{issue}'\nDetected Priority: {priority}"}
+            {
+                "role": "user",
+                "content": f"User Issue: '{issue}'\n"
+                           f"Detected Priority: {priority}\n"
+                           f"Detected Category: {state.category}\n"
+                           f"Generated Summary: {state.summary}"
+            }
         ]
         
         # Max 5 reasoning steps to avoid infinite loops
@@ -300,7 +326,7 @@ class HelpdeskAgentWorkflow:
 
     def _call_gemini_api(self, prompt: str, history: List[Dict[str, str]]) -> str:
         """Call Gemini API using urllib (standard library) to prevent package dependency bloat."""
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.gemini_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.gemini_key}"
         
         # Construct content structure for Gemini API
         contents = []

@@ -14,6 +14,8 @@ class AgentState(BaseModel):
     """Tracks the overall execution state of the support agent workflow."""
     issue_text: str
     priority: str = "LOW"
+    category: Optional[str] = None
+    summary: Optional[str] = None
     kb_results: List[Any] = []
     matching_tickets: List[Any] = []
     is_duplicate: bool = False

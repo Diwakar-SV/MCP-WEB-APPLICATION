@@ -20,9 +20,14 @@ class TestHelpdeskAgent(unittest.TestCase):
         # We use the existing local tickets.db for testing.
         # Ensure database is accessible
         self.db = SessionLocal()
+        self.orig_api_key = os.environ.get("GEMINI_API_KEY")
+        if "GEMINI_API_KEY" in os.environ:
+            del os.environ["GEMINI_API_KEY"]
         
     def tearDown(self):
         self.db.close()
+        if self.orig_api_key is not None:
+            os.environ["GEMINI_API_KEY"] = self.orig_api_key
         
     def test_priority_classifier(self):
         """Verify that issues are correctly classified by priority."""
