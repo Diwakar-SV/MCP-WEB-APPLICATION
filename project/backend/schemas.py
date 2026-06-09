@@ -93,3 +93,21 @@ class DashboardStats(BaseModel):
     high_priority_tickets: int
     status_distribution: List[StatusCount]
     tickets_per_day: List[DayCount]
+
+# --- AGENT SCHEMAS ---
+class AgentRunRequest(BaseModel):
+    issue: str = Field(..., min_length=5)
+
+class ExecutionStepSchema(BaseModel):
+    step_number: int
+    thought: str
+    action: str
+    observation: str
+    timestamp: str
+
+class AgentRunResponse(BaseModel):
+    success: bool
+    final_response: str
+    steps: List[ExecutionStepSchema]
+    state: Dict[str, Any]
+

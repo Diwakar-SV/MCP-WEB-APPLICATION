@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Ticket, PlusCircle, BookOpen, LogOut, Shield } from 'lucide-react';
+import { LayoutDashboard, Ticket, PlusCircle, BookOpen, LogOut, Shield, Sparkles } from 'lucide-react';
 import type { User } from '../types';
 
 interface SidebarProps {
@@ -24,6 +24,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'tickets', name: 'Tickets', icon: <Ticket className="w-5 h-5" /> },
     { id: 'create-ticket', name: 'Create Ticket', icon: <PlusCircle className="w-5 h-5" /> },
     { id: 'kb', name: 'Knowledge Base', icon: <BookOpen className="w-5 h-5" /> },
+    { id: 'agent-simulator', name: 'Agent Simulator', icon: <Sparkles className="w-5 h-5" /> },
   ];
 
   const handleNav = (page: string) => {

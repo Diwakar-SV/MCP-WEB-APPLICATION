@@ -8,6 +8,7 @@ import { TicketList } from './pages/TicketList';
 import { TicketDetail } from './pages/TicketDetail';
 import { CreateTicket } from './pages/CreateTicket';
 import { KnowledgeBase } from './pages/KnowledgeBase';
+import { AgentSimulator } from './pages/AgentSimulator';
 import type { User, ToastMessage } from './types';
 
 export const App: React.FC = () => {
@@ -113,6 +114,8 @@ export const App: React.FC = () => {
         );
       case 'kb':
         return <KnowledgeBase token={token} addToast={addToast} />;
+      case 'agent-simulator':
+        return <AgentSimulator token={token} addToast={addToast} />;
       default:
         return <Dashboard token={token} addToast={addToast} />;
     }

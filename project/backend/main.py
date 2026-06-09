@@ -20,8 +20,10 @@ from backend.schemas import (
     LoginRequest, LoginResponse, UserResponse,
     TicketCreate, TicketUpdate, TicketResponse,
     CommentCreate, CommentResponse, KnowledgeBaseResponse,
-    DashboardStats, StatusCount, DayCount
+    DashboardStats, StatusCount, DayCount,
+    AgentRunRequest, AgentRunResponse
 )
+from agent.workflow import HelpdeskAgentWorkflow
 
 app = FastAPI(title="Help Desk Ticket Management System API")
 
@@ -258,3 +260,40 @@ def get_dashboard_stats(current_user: UserModel = Depends(get_current_user), db:
         status_distribution=status_distribution,
         tickets_per_day=tickets_per_day
     )
+
+# --- AGENT WORKFLOW ---
+@app.post("/agent/run", response_model=AgentRunResponse)
+@app.post("/api/agent/run", response_model=AgentRunResponse)
+def run_agent(
+    request: AgentRunRequest,
+    current_user: UserModel = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        # Run the workflow with direct mode (local DB calls inside the web server)
+        workflow = HelpdeskAgentWorkflow(mode="direct")
+        result = workflow.run(request.issue)
+        
+        # Convert Pydantic ExecutionStep items into response schemas
+        steps_list = []
+        for step in result.steps:
+            steps_list.append({
+                "step_number": step.step_number,
+                "thought": step.thought,
+                "action": step.action,
+                "observation": step.observation,
+                "timestamp": step.timestamp
+            })
+            
+        return {
+            "success": result.success,
+            "final_response": result.final_response,
+            "steps": steps_list,
+            "state": result.state
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Agent workflow execution failed: {str(e)}"
+        )
+
