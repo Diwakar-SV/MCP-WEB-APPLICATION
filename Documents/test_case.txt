@@ -1,0 +1,47 @@
+PS D:\Project\MCP\MCP WEB APPLICATION (final draft)\project> python -m pytest -v
+============================================ test session starts =============================================
+platform win32 -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Project\MCP\MCP WEB APPLICATION (final draft)\project
+plugins: anyio-4.13.0, cov-7.1.0, mock-3.15.1
+collected 39 items                                                                                            
+
+agent/test_agent.py::TestHelpdeskAgent::test_executor_direct_call PASSED                                [  2%]
+agent/test_agent.py::TestHelpdeskAgent::test_jaccard_similarity_duplicate_check PASSED                  [  5%] 
+agent/test_agent.py::TestHelpdeskAgent::test_priority_classifier PASSED                                 [  7%] 
+agent/test_agent.py::TestHelpdeskAgent::test_workflow_duplicate_ticket_mitigation PASSED                [ 10%]
+agent/test_agent.py::TestHelpdeskAgent::test_workflow_new_ticket_creation PASSED                        [ 12%]
+agent/test_gemini_classifier.py::TestGeminiClassifier::test_classifier_raises_value_error_without_api_key PASSED [ 15%]
+agent/test_gemini_classifier.py::TestGeminiClassifier::test_classifier_returns_structured_json PASSED   [ 17%] 
+agent/test_gemini_classifier.py::TestGeminiClassifier::test_workflow_fallback_on_gemini_failure PASSED  [ 20%]
+agent/test_gemini_classifier.py::TestGeminiClassifier::test_workflow_integrates_gemini_classification PASSED [ 23%]
+tests/test_add_comment.py::test_add_comment_success PASSED                                              [ 25%]
+tests/test_add_comment.py::test_add_comment_invalid_ticket PASSED                                       [ 28%] 
+tests/test_add_comment.py::test_add_comment_status_transition PASSED                                    [ 30%]
+tests/test_add_comment.py::test_add_comment_no_status_transition_if_not_open PASSED                     [ 33%]
+tests/test_api_endpoints.py::test_login_success PASSED                                                  [ 35%]
+tests/test_api_endpoints.py::test_login_failure PASSED                                                  [ 38%]
+tests/test_api_endpoints.py::test_create_ticket_api PASSED                                              [ 41%]
+tests/test_api_endpoints.py::test_get_tickets_scoping PASSED                                            [ 43%]
+tests/test_api_endpoints.py::test_update_ticket_api PASSED                                              [ 46%]
+tests/test_business_logic.py::test_tokenize PASSED                                                      [ 48%] 
+tests/test_business_logic.py::test_classify_priority PASSED                                             [ 51%] 
+tests/test_business_logic.py::test_is_duplicate_ticket PASSED                                           [ 53%] 
+tests/test_create_ticket.py::test_create_ticket_success PASSED                                          [ 56%]
+tests/test_create_ticket.py::test_create_ticket_invalid_priority_fallback PASSED                        [ 58%]
+tests/test_create_ticket.py::test_create_ticket_missing_fields PASSED                                   [ 61%]
+tests/test_create_ticket.py::test_create_ticket_no_valid_user PASSED                                    [ 64%] 
+tests/test_get_ticket.py::test_get_ticket_existing PASSED                                               [ 66%]
+tests/test_get_ticket.py::test_get_ticket_with_comments PASSED                                          [ 69%]
+tests/test_get_ticket.py::test_get_ticket_non_existent PASSED                                           [ 71%] 
+tests/test_list_tickets.py::test_list_tickets_empty PASSED                                              [ 74%]
+tests/test_list_tickets.py::test_list_tickets_multiple PASSED                                           [ 76%]
+tests/test_list_tickets.py::test_list_tickets_ordering PASSED                                           [ 79%]
+tests/test_mcp_tools.py::test_update_ticket_mcp PASSED                                                  [ 82%]
+tests/test_mcp_tools.py::test_delete_ticket_not_closed PASSED                                           [ 84%]
+tests/test_mcp_tools.py::test_delete_ticket_closed PASSED                                               [ 87%]
+tests/test_search_kb.py::test_search_kb_exact PASSED                                                    [ 89%]
+tests/test_search_kb.py::test_search_kb_partial PASSED                                                  [ 92%] 
+tests/test_search_kb.py::test_search_kb_case_insensitive PASSED                                         [ 94%]
+tests/test_search_kb.py::test_search_kb_no_results PASSED                                               [ 97%]
+tests/test_search_kb.py::test_search_kb_empty_query PASSED                                              [100%]

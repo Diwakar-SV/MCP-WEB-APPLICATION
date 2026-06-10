@@ -1,0 +1,143 @@
+PROMPTS USED IN PROJECT DEVELOPMENT
+
+Introduction
+
+This document serves as a complete repository of the prompts used during the planning, implementation, testing, debugging, and documentation of the Helpdesk Ticket Management MCP System.
+
+Why Prompts Are Documented
+
+In modern software engineering, tracking prompts used with AI models is important because:
+
+- It enables reproducibility of AI-generated outputs.
+- It serves as a knowledge base for future developers.
+- It provides transparency during project reviews and evaluations.
+
+AI-Assisted Development Flow
+
+Development followed a hybrid approach where AI was used for scaffolding, boilerplate generation, documentation, testing assistance, and implementation guidance. Human developers performed integration, debugging, validation, security reviews, and final testing.
+
+Role of Human Review and Validation
+
+All AI-generated code was manually reviewed. Developers verified database transactions, fixed path issues, added exception handling, validated security configurations, and ensured the system met business requirements.
+
+====================================================================
+
+PROJECT PLANNING PROMPTS
+
+Prompt Name:
+Helpdesk Agent System Concept and Architecture Planning
+
+Purpose:
+Define the overall architecture of the helpdesk ticket management system.
+
+Representative Prompt:
+
+Design an enterprise-grade Help Desk Ticket Management System. The system must combine an autonomous AI Agent layer with a Model Context Protocol (MCP) server for tool management and a Google Gemini API connection for classifying incoming user tickets.
+
+Output Produced:
+Architecture diagrams, workflow definitions, and component descriptions.
+
+Files Impacted:
+README.md
+
+Lessons Learned:
+Separating database logic from AI agent logic improves maintainability.
+
+====================================================================
+
+MCP DEVELOPMENT PROMPTS
+
+Prompt Name:
+FastMCP Ticket Server Implementation
+
+Purpose:
+Create a stdio-based MCP server exposing ticket management tools.
+
+Representative Prompt:
+
+Write a Python script server.py using FastMCP. Define tools to list tickets, create tickets, update tickets, add comments, and search a knowledge base.
+
+Output Produced:
+MCP Server implementation.
+
+Files Impacted:
+mcp_server/server.py
+
+Lessons Learned:
+Tool descriptions must be explicit because LLMs rely on them when selecting tools.
+
+====================================================================
+
+GEMINI INTEGRATION PROMPTS
+
+Prompt Name:
+Gemini Structured JSON Classification
+
+Purpose:
+Classify incoming issues and return structured data.
+
+Representative Prompt:
+
+Create a Gemini classifier that returns JSON with priority, category, and summary fields.
+
+Output Produced:
+Gemini classification service.
+
+Files Impacted:
+services/gemini_classifier.py
+
+Lessons Learned:
+Forcing JSON output significantly reduces parsing errors.
+
+====================================================================
+
+MOST EFFECTIVE PROMPTS
+
+1. Gemini Structured JSON Classifier
+Reason:
+Generated reliable machine-readable outputs.
+
+2. ReAct Agent Workflow
+Reason:
+Enabled multi-step reasoning and tool orchestration.
+
+3. MCP Server Generator
+Reason:
+Accelerated tool registration and database integration.
+
+4. Duplicate Detection Prompt
+Reason:
+Improved issue matching accuracy.
+
+====================================================================
+
+AI ASSISTANCE SUMMARY
+
+AI-Assisted Tasks
+
+- MCP server scaffolding
+- Agent workflow design
+- Gemini integration
+- Documentation generation
+- Test case generation
+
+Human Tasks
+
+- Debugging
+- Configuration management
+- Security validation
+- Database verification
+- Performance testing
+
+Human Verification
+
+- MCP tool testing
+- Database testing
+- Gemini response validation
+- End-to-end workflow testing
+
+====================================================================
+
+CONCLUSION
+
+AI significantly accelerated development by generating code, documentation, and architectural suggestions. Human oversight remained essential for debugging, validation, testing, configuration management, and ensuring production readiness.

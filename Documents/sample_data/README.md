@@ -7,8 +7,6 @@ This directory contains representative test cases for validating the AI Agent's 
 ```text
 sample_data/
 ├── README.md               # This documentation file
-├── generate_pdf.py         # Script to compile sample data to PDF
-├── helpdesk_sample_data.pdf# Generated premium PDF report of sample data
 ├── input_issue_1.txt       # Raw text of a new, critical payment issue
 ├── expected_output_1.json  # Expected classification & creation action
 ├── input_issue_2.txt       # Raw text of a slow database query warning
@@ -53,16 +51,3 @@ These sample files can be fed into custom test scripts or agent evaluation runs 
 # Example verification script execution
 python project/agent/test_agent.py
 ```
-
----
-
-## PDF Document Generation
-
-A professionally styled PDF report of the sample data is available as [helpdesk_sample_data.pdf](file:///c:/Users/diwak/OneDrive/Pictures/MCP-WEB-APPLICATION/MCP%20WEB%20APPLICATION/project/sample_data/helpdesk_sample_data.pdf).
-
-To regenerate this PDF after modifying any input text or expected output JSON files, run the generator script from the project root:
-
-```bash
-python project/sample_data/generate_pdf.py
-```
-
